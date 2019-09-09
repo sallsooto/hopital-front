@@ -1,0 +1,45 @@
+<div class="container spacer">
+  <div class="col-md-15">
+  <div class="panel panel-primary">
+      <div class="panel-heading">Consultations d'un medecin</div>
+      <div class="panel-body">
+          <div class="form-group">
+              <label>Matricule:</label>
+              <input type="text" [(ngModel)]="motCle"/>
+              <button class="btn btn-primary" (click)=" getConsultationsDossier()">chercher</button>
+          </div>
+          <table class="table table-striped">
+              <tr>
+                  <th>Date Consultation</th><th>Commentaire</th><th>Prescription</th><th>Nom Patient</th><th>Prenom Patient</th>
+                  <th>Date Naissance</th>
+              </tr>
+              <tr *ngFor="let c of consultations?.content">
+                  <td>{{c[0]}}</td>
+                  <td>{{c[1]}}</td>
+                  <td>{{c[2]}}</td>
+                  <td>{{c[3]}}</td>
+                  <td>{{c[4]}}</td>
+                  <td>{{c[5]}}</td>
+                  <td>
+                    <a class="btn btn-danger" (click)="onEditConsultation(c.id)" >
+                         <span class="glyphicon glyphicon-edit"></span>
+                    </a>
+                </td>
+                <td>
+                    <button class="btn btn-danger"  (click)="onDeleteConsultation(c)">
+                          <span class="glyphicon glyphicon-remove"></span>
+                    </button>
+                </td>
+              </tr>
+          </table>
+          <div class="container">
+              <ul class="nav nav-pills">
+                  <li [ngClass]="{'active':i==cuurentPage}" *ngFor="let p of pages; let i=index">
+                      <a class="clickable" (click)="gotoPage(i)">{{i}}</a>
+                  </li>
+              </ul>
+          </div>
+      </div>
+  </div>
+</div>
+</div>

@@ -1,0 +1,32 @@
+
+<div class="spacer container spacer">
+  <div class="col-md-6 col-md-offset-2">
+  <div class="panel panel-primary" *ngIf="mode==1">
+    <div style="background-color: green;color:white;font-size: 30px" class="panel-heading">Nouveau Departement</div>
+    <div class="panel-body">
+        <div class="form-group">
+            <label class="control-label">Nom :</label>
+            <input class="form-control" placeholder="Nom departement" type="text" [(ngModel)]="departements.libelledep"/>
+        </div>
+        <button class="btn btn-success bnt-lg btn-block" (click)="saveDepartement()"><i class="fas fa-database"></i>Save</button>
+    </div>
+  </div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="panel panel-primary" *ngIf="mode==2">
+    <div class="panel-heading">Confirmation</div>
+    <div class="panel-body">
+     
+        <div class="form-group">
+          <label class="control-label">ID :</label>
+          <label >{{departements?.id}}</label> 
+        </div>
+        <div class="form-group">
+            <label class="control-label">Nom :</label>
+            <label >{{departements.libelledep}}</label> 
+        </div>
+        <button class="btn btn-secondary" (click)="mode=1">Nouveau Departement</button>
+    </div>
+  </div>
+</div>  

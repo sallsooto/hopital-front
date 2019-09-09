@@ -1,0 +1,139 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+    </head>
+  <body style="position: relative;min-height: 1100px;" class="bgImg">
+    <div class="container">
+
+    </div>
+    <nav style="background-color: rgb(8, 27, 8);font-size: 17px" class="text-uppercase navbar navbar-inverse ">
+      <div class="container-fluid">
+        <div *ngIf="isAuthenticated()" class="navbar-header">
+          <div class="logo">
+         <img height="53" width="53"  src="/assets/img/logo.png" />
+        </div>
+        </div>
+        <ul  *ngIf="isAuthenticated()" class="nav navbar-nav">
+          <li><a href="#"> Accueil</a></li>
+          <li *ngIf="isMedecin()" class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Consultations
+            <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a routerLink="/consultations">Nouvelle Consultation</a></li>
+              <li><a routerLink="/listesConsultations">Liste Consultation</a></li>
+              <li><a routerLink="/listesConsultationsDossier">Liste Consultations par dossier</a></li>
+            </ul>
+          </li>
+          <li class="dropdown" *ngIf="isAdmin()">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Departements
+            <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a routerLink="/nouveauDepartements">Ajout Departement</a></li>
+              <li *ngIf="isAdmin()"><a routerLink="/departements">Liste Departements</a></li>
+            </ul>
+          </li>
+  
+          <li class="dropdown" *ngIf="isSecretaire()">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Rendez-Vous
+            <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a routerLink="/ajoutRendezVous">Prise d'un rendez-vous</a></li>
+              <li><a routerLink="/listeRendezVous">Liste des rendez-vous</a></li>
+            </ul>
+          </li>
+          <li class="dropdown" *ngIf="isAdmin()||isChefService()">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Service 
+            <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a routerLink="/ajoutService">Ajouter un Service</a></li>
+              <li><a routerLink="/listeService">Liste Service</a></li>
+            </ul>
+          </li>
+  
+          <li class="dropdown" *ngIf="isAdmin()">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Utilisateurs
+            <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a routerLink="/inscriptions">Ajouter un utilisateur</a></li>
+              <li><a routerLink="/listeUtilisateurs">Liste utilisateurs</a></li>
+            </ul>
+          </li>
+        </ul>
+        <ul class="nav navbar-nav pull-right">
+          <li>
+            <a *ngIf="!isAuthenticated()" routerLink="/login">Login</a>             
+             <a style="background-color: red" class="icon-signout" *ngIf="isAuthenticated()" routerLink="/login" (click)="logOut()">
+                <span class="glyphicon glyphicon-log-out"></span>
+              </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <router-outlet>
+ 
+      </router-outlet>
+    
+      
+
+      <!-- Footer -->
+      <div style="margin-top:100px;position: absolute;bottom:0px;width: 100%;">
+        <footer style=" background-color: rgb(8, 27, 8);color: blanchedalmond" class="page-footer font-small teal pt-4">
+
+          <!-- Footer Text -->
+          <div class="container-fluid text-center text-md-left">
+        
+            <!-- Grid row -->
+            <div class="row">
+        
+              <!-- Grid column -->
+              <div class="col-md-6 mt-md-0 mt-3">
+        
+                <!-- Content -->
+                <h5 class="text-uppercase font-weight-bold">Projet Java</h5>
+                <p>Automatiser, Securiser pour donner la rapidité, la fiabilité, la sécurité
+                  bref être au 21 ème siècle<br/><br/><br/>
+                </p>
+        
+              </div>
+              <!-- Grid column -->
+        
+           
+        
+              <!-- Grid column -->
+              <div class="col-md-6 mb-md-0 mb-3">
+        
+                <!-- Content -->
+                <h5 class="text-uppercase font-weight-bold">Projet Java</h5>
+                <p>Souleymane Diallo Master Genie Logiciel Université Dakar Bourguiba</p>
+        
+              </div>
+              <!-- Grid column -->
+        
+            </div>
+            <!-- Grid row -->
+        
+          </div>
+          <!-- Footer Text -->
+        
+          <!-- Copyright -->
+          <div style="background-color: black;color:white" class="footer-copyright text-center py-3">© 2019 Copyright:
+            <a style="color:white" href="#"> soulaafousfdfouta.com</a>
+            <br/><br/>
+          </div>
+          <!-- Copyright -->
+        
+        </footer>
+      </div>
+
+  <!-- Footer -->
+
+
+
+  </body>
+</html>
+
+  
+
+
+  

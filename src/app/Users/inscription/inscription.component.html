@@ -1,0 +1,166 @@
+<div class="container spacer">
+  <div class="panel">
+    <div style="background-color: green;color:white;font-size: 30px" class="panel-heading">Saisie d'un utilisateur</div>
+    <div class="panel panel-body">
+        <form #f="ngForm" (ngSubmit)="onSaveUsers(f.value)">
+           <table class="table table-border">
+            <th>NOM</th><th>PRENOM</th><th>Date Naissance</th>
+               <tr>
+                  <td>
+                        <div class="form-group">
+                               <input class="form-control" required #nom1="ngModel" type="text" [(ngModel)]="nom" name="nom" pattern="^[a-zA-Z éèêî]{2,25}">
+                               <span class="text-danger" *ngIf="!nom1.valid && nom1.touched">
+                                  <h5>nom invalide</h5>
+                               </span>
+                            </div>
+                  </td>
+                  <td>
+                        <div class="form-group">
+                               <input class="form-control" #prenom1="ngModel" type="text" [(ngModel)]="prenom" name="prenom" required pattern="^[a-zA-Z éèêî]{2,40}">
+                               <span class="text-danger" *ngIf="!prenom1.valid && prenom1.touched">
+                                 <h5>prenom invalide</h5>
+                              </span>
+                             </div>
+                  </td>
+                  <td>
+                        <div class="form-group">
+                               <input class="form-control"  type="date" [(ngModel)]="dateNaissance" name="dateNaissance" required (change)="dateValidator()">
+                               <span class="text-danger" *ngIf="!dateC">
+                                 <h5>Date invalide</h5>
+                              </span>
+                               <h4 class="couleur"><i>{{dateValide}}</i></h4>
+                          </div>
+                  </td>
+              
+               </tr>
+               <th>LIEU</th><th>EMAIL</th><th>TELEPHONE</th>
+               <tr>
+                     <td>
+                           <div class="form-group">
+                                  <input class="form-control" #lieu1="ngModel" type="text" [(ngModel)]="lieu" name="lieu" required pattern="^[a-zA-Z0-9 éèêî]{2,30}">
+                                  <span class="text-danger" *ngIf="!lieu1.valid && lieu1.touched">
+                                    <h5>nom lieu invalide</h5>
+                                 </span>
+                                </div>
+                     </td>
+                     <TD>
+                           <div class="form-group">
+                                  <input class="form-control" #email1="ngModel" type="email" [(ngModel)]="email" name="email" required>
+                                  <span class="text-danger" *ngIf="!email1.valid && email1.touched">
+                                    <h5>Email invalide</h5>
+                                 </span>
+                                </div>
+                     </TD>
+                     <td>
+                           <div class="form-group">
+                                  <input class="form-control" type="tel" #phone="ngModel" pattern="^\d{12}$" 
+                                   [(ngModel)]="telephone" name="telephone" required>
+                                   <span class="text-danger" *ngIf="!phone.valid && phone.touched">
+                                    <h5>Numero Telephone invalide</h5>
+                                 </span> 
+                             </div>
+                     </td>
+               </tr>
+               <th>PHOTO</th><th>LOGIN</th>
+               <tr>
+                  <td>
+
+             <div>
+                   <input class="form-control" type="file" [(ngModel)]="photo" name="photo" #Image accept="image/*" required>
+              </div>
+                  </td>
+                  <td>
+
+             <div class="form-group">    
+                   <input class="form-control" type="text" [(ngModel)]="username" (change)="verifieUser()" name="username" required>
+                   <span class="text-danger" *ngIf="userExist">
+                      <h4 class="couleur"><i>{{messageUser}}</i></h4>
+                   </span>
+                    
+                </div> 
+                  </td>
+               </tr>
+               <th>Mot de passe</th><th>Confirmer le mot de passe</th>
+               <tr>
+                  <td>
+                        <div class="form-group">
+                             
+                               <input class="form-control" type="password" [(ngModel)]="password" name="password" required>
+                            </div> 
+                  </td>
+                  <td>
+                        <div class="form-group">
+                               
+                               <input class="form-control" type="password" [(ngModel)]="confirmedPassword" name="confirmedPassword" required>
+                               <span class="text-danger" *ngIf="!samePasswords()">
+                                 <h5 class="couleur">Mots de passe non identiques!</h5>
+                              </span>
+                            </div>
+                  </td>
+               </tr>
+
+
+           </table>
+          
+       
+               <div class="form-group">
+                 <table class="table table-border">
+                    <th>Selectionnez au moins un role :</th>
+                  <tr *ngFor="let role of listRole">
+                           <td *ngIf="role.libelle!='USER'">
+                                 {{role.libelle}} 
+                           </td>
+                        <td *ngIf="role.libelle!='USER'">
+                               <input type="checkbox" [value]="role.libelle"  (change)="addRole(role.libelle)">
+                               
+                        </td>  
+                  </tr>
+                  </table>
+                  <table class="table table-border">
+                  
+                  <div *ngIf="isMedecin()">
+                     <th>Departement</th><th>Service</th><th>Specialite</th>
+                        <tr>
+                              <td style="width: 300px">
+                                    <div  class="form-group">
+                                          
+                                          <select class="form-control"   [(ngModel)]="dep_id" name="dep_id" (change)="getServicesDep(dep_id)" >
+                                            <option value=""></option>
+                                           <option *ngFor="let d of departements" [value]="d.id">
+                                           {{d.libelledep}}
+                                           </option>
+                                         </select> 
+                                       </div>
+                              </td>
+                              <td style="width: 300px">
+                                    <div class="form-group">
+                                        
+                                          <select class="form-control"  [(ngModel)]="service" name="service">
+                                                <option value=""></option>
+                                                <option *ngFor="let service of services" [value]="service.id">
+                                                     {{service.libelleService}}
+                                                 </option>
+                                         </select> 
+                                      </div>
+                              </td>
+                              <td style="width: 300px">
+                                    <div class="form-group">
+                                           <select [(ngModel)]="specialite" name="specialite" id="" class="form-control" required>
+                                                <option value="" ></option>
+                                                <option *ngFor="let specialite of listSpecialite" [value]="specialite.id">
+                                                   {{specialite.libelleSpecialite}}
+                                                 </option>
+                                              </select>
+                                            </div>
+                              </td>
+                           </tr>
+                      </div>
+                 </table>
+               </div>
+               
+               <button style="width: 25% ;margin-left:40%" [disabled]="!f.valid" type="submit" class="btn btn-success btn-md btn-block">Save</button>
+               <div class="vert text-center"><h3><i>{{ajoutReussi}}</i></h3></div>
+          </form>
+  </div>
+</div>
+</div>

@@ -1,0 +1,30 @@
+<div class="container spacer">
+    <div class="col-md-7 col-md-offset-2">
+    <div class="panel panel-primary">
+        <div style="background-color: green;color:white;font-size: 30px" class="panel-heading">Listes des departements</div>
+        <div class="panel-body">
+            <div class="form-group">
+                <label>Mot Cle:</label>
+                <input type="text" [(ngModel)]="motCle"/>
+                <button class="btn btn-success" (click)="chercher()"><label class="label">Recherche</label></button>
+            </div>
+            <table *ngIf="departements" class="table table-striped">
+                <tr>
+                    <th>ID</th><th>NOM</th>
+                </tr>
+                <tr *ngFor="let d of departements.content">
+                    <td>{{d.id}}</td>
+                    <td>{{d.libelledep}}</td>
+                </tr>
+            </table>
+            <div class="container">
+                <ul class="nav nav-pills">
+                    <li [ngClass]="{'active':i==cuurentPage}" *ngFor="let p of pages; let i=index">
+                        <a class="clickable" (click)="gotoPage(i)">{{i}}</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

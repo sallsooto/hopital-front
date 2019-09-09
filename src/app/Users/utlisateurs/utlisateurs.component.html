@@ -1,0 +1,43 @@
+<div class="container spacer">
+  <div class="panel panel-primary">
+      <div style="background-color: green;color:white;font-size: 30px" class="panel-heading">Listes des utilisateurs</div>
+      <div class="panel-body">
+          <div class="form-group">
+              <label>Mot Cle:</label>
+              <input type="text" [(ngModel)]="motCle"/>
+              <button class="btn btn-primary" (click)="chercher()">chercher</button>
+          </div>
+          <table class="table table-striped">
+              <tr>
+                   <th>NOM</th><th>PRENOM</th><th>DATE NAISSANCE</th><th>LIEU</th><th>EMAIL</th><th>TELEPHONE</th><th>PHOTO</th>
+              </tr>
+              <tr *ngFor="let u of utilisateurs?.content">
+                  <td>{{u.nom}}</td>
+                  <td>{{u.prenom}}</td>
+                  <td>{{u.dateNaissance}}</td>
+                  <td>{{u.lieu}}</td>
+                  <td>{{u.email}}</td>
+                  <td>{{u.telephone}}</td>
+                  <td>{{u.photo}}</td>
+                  <td>
+                      <a class="btn btn-danger" (click)="onEditUser(u)" >
+                           <span class="glyphicon glyphicon-edit"></span>
+                      </a>
+                  </td>
+                  <td>
+                      <button class="btn btn-danger"  (click)="onDeleteUser(u)">
+                            <span class="glyphicon glyphicon-remove"></span>
+                      </button>
+                  </td>
+              </tr>
+          </table>
+          <div class="container">
+              <ul class="nav nav-pills">
+                  <li [ngClass]="{'active':i==cuurentPage}" *ngFor="let p of pages; let i=index">
+                      <a class="clickable" (click)="gotoPage(i)">{{i}}</a>
+                  </li>
+              </ul>
+          </div>
+      </div>
+  </div>
+</div>

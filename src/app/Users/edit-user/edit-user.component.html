@@ -1,0 +1,92 @@
+<div class="container spacer">
+  <div class="panel panel-primary" *ngIf="mode==1">
+    <div style="background-color: green;color:white;font-size: 30px" class="panel-heading">Edit Utilisateur</div>
+    <div class="panel-body">
+      <div ></div>
+        <div class="form-group">
+            <label class="control-label">Nom :</label>
+            <input class="form-control" required #nom1="ngModel" type="text" pattern="^[a-zA-Z éèêî]{2,25}" [(ngModel)]="utilisateurs.nom"/>
+            <span class="text-danger" *ngIf="!nom1.valid && nom1.touched">
+              <h5>nom invalide</h5>
+           </span>
+          </div>
+        <div class="form-group">
+          <label class="control-label">Prénom :</label>
+          <input class="form-control" type="text" #prenom1="ngModel" required pattern="^[a-zA-Z éèêî]{2,40}" [(ngModel)]="utilisateurs.prenom"/>
+          <span class="text-danger" *ngIf="!prenom1.valid && prenom1.touched">
+            <h5>prenom invalide</h5>
+         </span>
+        </div>
+        <div class="form-group">
+          <label class="control-label">Date de Naissance :</label>
+          <input class="form-control" type="date" required (change)="dateValidator()" [(ngModel)]="utilisateurs.dateNaissance"/>
+          <span class="text-danger" *ngIf="!dateC">
+            <h5>Date invalide</h5>
+         </span>
+          <h4 class="couleur"><i>{{dateValide}}</i></h4>
+        </div>
+        <div class="form-group">
+          <label class="control-label">Lieu :</label>
+          <input class="form-control" #lieu1="ngModel" type="text"  required pattern="^[a-zA-Z0-9 éèêî]{2,30}" [(ngModel)]="utilisateurs.lieu"/>
+          <span class="text-danger" *ngIf="!lieu1.valid && lieu1.touched">
+            <h5>nom lieu invalide</h5>
+         </span>
+        </div>
+        <div class="form-group">
+          <label class="control-label">Email :</label>
+         <input class="form-control"  #email1="ngModel" type="email" [(ngModel)]="utilisateurs.email"/>
+         <span class="text-danger" *ngIf="!email1.valid && email1.touched">
+          <h5>Email invalide</h5>
+       </span>
+        </div>
+        <div class="form-group">
+          <label class="control-label">Telephone :</label> 
+           <input class="form-control" type="text" #phone="ngModel" [ngModel]="utilisateurs.telephone" pattern="^\d{12}$" name="telephone" required>
+           <span class="text-danger" *ngIf="!phone.valid && phone.touched">
+            <h5>Numero Telephone invalide</h5>
+         </span> 
+          </div>
+    
+      <div class="form-group">
+          <label class="control-label">Login :</label> 
+           <input class="form-control" type="text" [ngModel]="utilisateurs.username" name="loging" required>
+       </div> 
+
+       <div class="form-group">
+          <label class="control-label">Password :</label> 
+           <input class="form-control" type="password" ngModel name="utilisateurs.password" required>
+        </div> 
+
+        <div class="form-group">
+          <label class="control-label">Statut :</label> 
+           <input class="form-control" type="checkbox" value="utilisateurs.enabled" (change)="changeStatut(utilisateurs.enabled)"  [ngModel]="utilisateurs.enabled" required>
+        </div> 
+
+        <div class="form-group">
+            <label class="control-label">Selectionnez au moins un role :</label>
+            <table class="table table-border">
+             <tr *ngFor="let role of listRole">
+                      <td *ngIf="role.libelle!='USER';let i=index">
+                         {{i}}
+                            {{role.libelle}} 
+                      </td>
+                   <td *ngIf="role.libelle!='USER'">
+                     <div *ngIf="lesRoles&&isChecked(role.libelle)">
+                      <input type="checkbox" [value]="role.libelle" checked  (change)="addRole(role.libelle)">
+                     </div>
+                     <div *ngIf="lesRoles&&!isChecked(role.libelle)">
+                        <input type="checkbox" [value]="role.libelle"  (change)="addRole(role.libelle)">
+                     </div>
+                          
+                          
+                   </td>  
+             </tr>
+            </table>
+          </div>
+          
+        <button class="btn btn-secondary" (click)="updateUser()">Save</button>
+    </div>
+  </div>
+</div>
+
+

@@ -1,0 +1,155 @@
+<div class="container spacer">
+ <div class="col-md-8 col-xs-12 col-md-offset-2">
+    <div class="panel panel-default">
+        <div class="panel-heading " tabindex="center">Consultation</div>
+        <form action="" #consultationForm1="ngForm" (ngSubmit)="saveConsultation1()">
+       <div class="panel-body">
+        <div class="form-group">
+          <div class="form-control">
+          <label > Nouveau
+            <input type="radio" name="etatd" checked value="leradio" (click)="nouveauPatient()" />
+          </label>
+          <label>Ancien
+            <input type="radio" name="etatd" value="leradio" (click)="ancienPatient()"/>
+          </label>
+        </div>
+        </div>
+        <div *ngIf="leradio">
+          <label class="control-label">Infos du patient</label>
+          <div class="form-group">
+              <label class="control-label" for="Name">Numero Dossier :</label>
+              <input class="form-control"  type="text" name="numeroDossier" (blur)="recherchePatient(numeroDossier)" [(ngModel)]="numeroDossier"/>
+              <div class="vert text-center"><h3><i>{{message}}</i></h3></div>
+          </div> 
+          <div *ngIf="dossierExiste"> 
+          <div class="form-group" *ngIf="lepatient">
+            <label class="control-label" for="Name">Nom Dossier :</label>
+            <input class="form-control" [disabled]="true" type="text" name="nomDossier" [(ngModel)]="libDossier"/>
+        </div>  
+        <div *ngIf="lepatient">
+          <div class="form-group">
+            <label class="control-label" for="Name">Nom :</label>
+              <input class="form-control" [disabled]="true" type="text"  name="nom" [(ngModel)]="lepatient.nom"/>
+          </div>
+          <div class="form-group">
+            <label class="control-label" for="firstName">Prénom :</label>
+            <input class="form-control" [disabled]="true" type="text" name="prenom" [(ngModel)]="lepatient.prenom"/>
+          </div>
+          <div class="form-group">
+            <label class="control-label" for="dateN">Date de Naissance :</label>
+            <input class="form-control" [disabled]="true" type="date" name="dateNaissance" [(ngModel)]="lepatient.dateNaissance"/>
+          </div>
+          <div class="form-group">
+            <label class="control-label" for="N">Numero Piece :</label>
+            <input class="form-control" [disabled]="true" type="text" name="numeroPiece" [(ngModel)]="lepatient.numeroPiece"/>
+          </div>
+          <div class="form-group">
+            <label class="control-label" for="E">Email :</label>
+            <input class="form-control" [disabled]="true" type="email" name="email" [(ngModel)]="lepatient.email"/>
+          </div>
+          <div class="form-group">
+            <label class="control-label" for="T">Telephone :</label>
+            <input class="form-control" [disabled]="true" type="tel" name="telephone" [(ngModel)]="lepatient.telephone"/>
+          </div>
+    
+        <div class="form-group">
+            <textarea name="commentaire" class="form-control" id="" placeholder="COMMENTAIRES" cols="30" rows="3" [(ngModel)]="commentaire">
+                 
+            </textarea>
+            
+          </div>
+        <div class="form-group">
+            <label class="control-label" for="A">Antecedents :</label>
+            <table>
+                <tr *ngFor="let a of libelleAntecedents">
+                   <td>{{a.libelleAntecedent}}</td>
+                </tr>
+            </table>
+          </div>
+         <div class="form-group">
+            <textarea name="prescription" class="form-control" id="" placeholder="PRESCRIPTION" cols="30" rows="5" [(ngModel)]="prescription">
+                 
+            </textarea> 
+          </div> 
+        </div> 
+        <div class="panel-footer">
+          <button class="btn btn-success bnt-lg btn-block">Save</button>
+          <h3>{{ajoutReussi}}</h3>
+        </div>
+      </div> 
+      </div>  
+    </div>
+    </form>
+  
+
+
+    <form action="" #consultationForm="ngForm" (ngSubmit)="saveConsultation()">
+   
+      <div *ngIf="!leradio">
+        <label class="control-label">Infos du patient</label>
+        <div> 
+        <div class="form-group">
+          <label class="control-label" for="Name">Nom Dossier :</label>
+          <input class="form-control" type="text" name="nomDossier" [(ngModel)]="nomDossier"/>
+      </div>  
+      <div>
+        <div class="form-group">
+          <label class="control-label" for="Name">Nom :</label>
+            <input class="form-control"  type="text"  name="nom" [(ngModel)]="nom"/>
+        </div>
+        <div class="form-group">
+          <label class="control-label" for="firstName">Prénom :</label>
+          <input class="form-control" type="text" name="prenom" [(ngModel)]="prenom"/>
+        </div>
+        <div class="form-group">
+          <label class="control-label" for="dateN">Date de Naissance :</label>
+          <input class="form-control"  type="date" name="dateNaissance" [(ngModel)]="dateNaissance"/>
+        </div>
+        <div class="form-group">
+          <label class="control-label" for="T">Lieu Naissance :</label>
+          <input class="form-control"  type="tel" name="lieu" [(ngModel)]="lieu"/>
+        </div>
+        <div class="form-group">
+          <label class="control-label" for="N">Numero Piece :</label>
+          <input class="form-control"  type="text" name="numeroPiece" [(ngModel)]="numeroPiece"/>
+        </div>
+        <div class="form-group">
+          <label class="control-label" for="E">Email :</label>
+          <input class="form-control"  type="email" name="email" [(ngModel)]="email"/>
+        </div>
+        <div class="form-group">
+          <label class="control-label" for="T">Telephone :</label>
+          <input class="form-control"  type="tel" name="telephone" [(ngModel)]="telephone"/>
+        </div>
+  
+      <div class="form-group">
+          <textarea name="commentaire" class="form-control" id="" placeholder="COMMENTAIRES" cols="30" rows="3" [(ngModel)]="commentaire">
+               
+          </textarea>
+          
+        </div>
+      <div class="form-group">
+          <label class="control-label" for="A">Antecedents :</label>
+          <table>
+              <tr *ngFor="let a of libelleAntecedents">
+                 <td>{{a.libelleAntecedent}}</td>
+              </tr>
+          </table>
+        </div>
+       <div class="form-group">
+          <textarea name="prescription" class="form-control" id="" placeholder="PRESCRIPTION" cols="30" rows="5" [(ngModel)]="prescription">
+               
+          </textarea> 
+        </div> 
+      </div> 
+      <div class="panel-footer">
+        <button class="btn btn-success bnt-lg btn-block"><i class="fa fa-database"></i> Save</button>
+        <h3>{{ajoutReussi}}</h3>
+      </div>
+    </div> 
+    </div> 
+  
+</form>
+</div>
+</div>
+</div>

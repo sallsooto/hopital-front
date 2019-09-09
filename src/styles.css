@@ -1,0 +1,19 @@
+/* You can add global styles to this file, and also import other style files */
+.spacer{
+    margin-top:30px;
+}
+
+.clickable{
+    cursor: pointer;
+}
+
+.couleur{
+	color:red;
+}
+.vert{
+    color:green;
+}
+.bgImg{
+    background-image: url("/assets/img/bg.jpg");
+    
+}

@@ -1,0 +1,27 @@
+<div class="container spacer">
+  <div class="col-md-8 col-xs-12 col-md-offset-2 col-sm-8">
+  <div class="panel panel-default">
+    <div style="background-color: green;color:white;font-size: 30px" class="panel-heading">Ajout d'un Service</div>
+    <div class="panel panel-body">
+        <form #f="ngForm" (ngSubmit)="enregistrerService(f.value)">
+            <div class="form-group">
+              <label class="control-label">Nom Service :</label> 
+               <input class="form-control" type="text" [(ngModel)]="libelleService" name="libelleService" required>
+            </div>
+               <div class="form-group">
+                 <label class="control-label">Depatement :</label>
+                 <select ngModel name="departement" id="" class="form-control" required>
+                   <option ></option>
+                   <option *ngFor="let departement of listDepartement" [value]="departement.id">{{departement.libelledep}}</option>
+                 </select>
+               </div>
+               <button [disabled]="!f.valid" type="submit" class="btn btn-success bnt-lg btn-block">Save Service</button>
+               <h3>{{ajoutReussi}}</h3>
+          </form>
+    </div>
+  </div>
+</div>
+</div>
+
+
+

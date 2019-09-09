@@ -1,0 +1,243 @@
+
+<div class="form-group">
+  <div class="form-control">
+  <label > Nouveau
+    <input type="radio" name="etatd" checked value="leradio" (click)="nouveauPatient()" />
+  </label>
+  <label>Ancien
+    <input type="radio" name="etatd" value="leradio" (click)="ancienPatient()"/>
+  </label>
+</div>
+</div>
+
+ 
+    <div class="container spacer">
+      <div class="panel panel-primary">
+        <div style="background-color: green;color:white;font-size: 30px" class="panel-heading">Saisie d'un RdV</div>
+        <form action="" #rvForm="ngForm" (ngSubmit)="saveRv()">
+        <div class="panel-body">
+           <br>
+           <div *ngIf="leradio">
+           <h3>Entrer les informations du patient</h3><br><br> 
+           <div>
+                <table class="table table-striped">
+                  <tr class="entete">
+                    <th>Numero Dossier</th>  
+                  </tr>
+                  <tr>
+                      <td><input placeholder="numero dossier"  type="text" name="numeroDossier" (blur)="recherchePatient()" [(ngModel)]="numeroDossier"/></td>
+                  </tr>
+                  <tr class="entete">
+                    <th>NOM</th><th>PRENOM</th><th>DATE NAISSANCE</th>
+                  </tr>
+                  <tr>
+                   
+                    <td><input type="text" [disabled]="true" placeholder="nom" required pattern="^[a-zA-Z ]{2,30}" name="nom" [(ngModel)]="nom" /></td>
+                
+                    <td><input type="text" [disabled]="true" placeholder="prenom" name="prenom" [(ngModel)]="prenom"/></td>
+                    <td><input type="date" [disabled]="true" placeholder="date naissance" name="dateNaissance" [(ngModel)]="dateNaissance"/></td>
+                  </tr>
+                  <tr class="entete">
+                    <th>Lieu Naissance</th><th>NPI</th><th>Telephone</th>
+                  </tr>
+                  <tr>
+                    <td><input type="text" [disabled]="true" placeholder="Lieu Naissance" name="lieuNaissance" [(ngModel)]="lieuNaissance"/></td>
+                    <td><input type="text" [disabled]="true" placeholder="Numero piece" name="numeroPiece" [(ngModel)]="numeroPiece"/></td>
+                    <td><input type="text" [disabled]="true" placeholder="Telephone" name="telephone" [(ngModel)]="telephone"/></td>
+                  </tr>
+                  <tr class="entete">
+                      <th>Email</th><th>Nom Dossier</th>
+                    </tr>
+                    <tr>
+                        <td><input type="email" [disabled]="true" placeholder="Email" name="email" [(ngModel)]="email"/></td>
+                        <td><input type="text" [disabled]="true" placeholder="Nom dossier" name="nomDossier" [(ngModel)]="libDossier"/></td>
+                    </tr>
+                </table>
+                <label class="control-label" for="service">Departement</label>
+                <select class="form-control"   [(ngModel)]="dep_id" name="dep_id" (change)="getServicesDep(dep_id)" >
+                  <option value=""></option>
+                 <option *ngFor="let d of departements" [value]="d.id">
+                 {{d.libelledep}}
+                 </option>
+               </select> 
+
+                 <label class="control-label" for="service">Service</label>
+                           <select class="form-control"  [(ngModel)]="service_id" name="service_id" (change)="findListMedecin(service_id)">
+                             <option value=""></option>
+                            <option *ngFor="let service of services" [value]="service.id">
+                            {{service.libelleService}}
+                            </option>
+                          </select> 
+
+                          <label class="control-label" for="service">Medecin</label>
+                           <select class="form-control"  [(ngModel)]="medecin_id" name="medecin_id" (change)="getCalendar()">
+                             <option value=""></option>
+                            <option *ngFor="let medecin of medecins" [value]="medecin.id">
+                            {{medecin.nom}}&ensp;{{medecin.prenom}}
+                            </option>
+                          </select>
+                          <div class="vert text-center"><h3><i>{{messageRv}}</i></h3></div>
+                          
+                          <div class="col-md-12">
+                              <div *ngIf="dataCalendar">
+                              <div>
+                                <div class="text-danger"></div>
+                                <table class="table table-sm table-bordered table-striped">
+                                  <thead>
+                                    <tr>
+                                      <td colspan="25" class="bg-secondary">
+                                        <div class="input-group">
+                                          <div class="input-group-prepend bg-success">
+                                             <span class="input-group-text bg-success text-light">Date </span>
+                                          </div>
+                    <input type="text" id="datepicker" class="form-control form-control-sm datepicker" name="calendarDate" [(ngModel)]="calendarDate" (blur)="getCalendar(medecin_id,calendarDate)" placeholder="au format jour/mois/annee"/>
+                                          <div class="input-group-append bg-success">
+                                            <button [disabled]="true" class="btn btn-success btn-outline-info text-light">Afficher le calendrier</button>
+                                          </div>
+                                           </div>
+                                      </td>
+                                    </tr>
+                                  </thead>
+                                  <tbody>											 											    
+                                    <tr *ngFor="let rvCalendar of dataCalendar">
+                                      <th class="text-center bg-success text-light text-bold text-capitalize" >{{rvCalendar.dayName }} <br/> {{ rvCalendar.date }}</th>
+                                      <td *ngFor="let h of rvCalendar.hours" class="text-center" >
+                                        <label for="{{rvCalendar.date}}{{ h.houre}}" *ngIf="!h.engaged">
+                      <input type="radio" name="rvHoure" id="color" [disabled]="h.engaged" [(ngModel)]="dateHeure"   value="{{rvCalendar.date + ' ' + h.houre}}"/>
+                                          {{ h.houre}}
+                                        </label>
+                                        <label for="{{rvCalendar.date}}{{ h.houre}}" *ngIf="h.engaged" class="bg-danger">
+                     <input type="radio" name="rvHoure" id="color" [disabled]="h.engaged"  value="{{rvCalendar.date + ' ' + h.houre}}"/>
+                                          {{ h.houre}}
+                                        </label>
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </div>
+                            </div>
+                            </div>
+
+
+            </div>
+            <br><br><br><br>
+            <button type="reset" class="btn btn-success">Initialiser</button>
+            <button type="submit" class="btn btn-success">valider</button>
+            <div class="vert text-center"><h3><i>{{ajoutReussi}}</i></h3></div>
+            </div>
+        </div>
+      </form>
+
+          
+    <form action="" #rvNForm="ngForm" (ngSubmit)="saveRvNouveau()">
+   
+      <div *ngIf="!leradio">
+        <label class="control-label">Infos du patient</label>
+        <div>
+          <table class="table table-striped">
+            <tr class="entete">
+              <th>NOM</th><th>PRENOM</th><th>DATE NAISSANCE</th>
+            </tr>
+            <tr>
+             
+              <td><input type="text" placeholder="nom" required pattern="^[a-zA-Z ]{2,30}" name="nom" [(ngModel)]="nom" /></td>
+          
+              <td><input type="text" placeholder="prenom" name="prenom" [(ngModel)]="prenom"/></td>
+              <td><input type="date" placeholder="date naissance" name="dateNaissance" [(ngModel)]="dateNaissance"/></td>
+            </tr>
+            <tr class="entete">
+              <th>Lieu Naissance</th><th>NPI</th><th>Telephone</th>
+            </tr>
+            <tr>
+              <td><input type="text" placeholder="Lieu Naissance" name="lieuNaissance" [(ngModel)]="lieuNaissance"/></td>
+              <td><input type="text" placeholder="Numero piece" name="numeroPiece" [(ngModel)]="numeroPiece"/></td>
+              <td><input type="text" placeholder="Telephone" name="telephone" [(ngModel)]="telephone"/></td>
+            </tr>
+            <tr class="entete">
+                <th>Email</th><th>Nom Dossier</th>
+              </tr>
+              <tr>
+                  <td><input type="email" placeholder="Email" name="email" [(ngModel)]="email"/></td>
+                  <td><input type="text" placeholder="Nom dossier" name="nomDossier" [(ngModel)]="libDossier"/></td>
+              </tr>
+          </table>
+          <label class="control-label" for="service">Departement</label>
+          <select class="form-control"   [(ngModel)]="dep_id" name="dep_id" (change)="getServicesDep(dep_id)" >
+            <option value=""></option>
+           <option *ngFor="let d of departements" [value]="d.id">
+           {{d.libelledep}}
+           </option>
+         </select> 
+
+           <label class="control-label" for="service">Service</label>
+                     <select class="form-control"  [(ngModel)]="service_id" name="service_id" (change)="findListMedecin(service_id)">
+                       <option value=""></option>
+                      <option *ngFor="let service of services" [value]="service.id">
+                      {{service.libelleService}}
+                      </option>
+                    </select> 
+
+                    <label class="control-label" for="service">Medecin</label>
+                     <select class="form-control"  [(ngModel)]="medecin_id" name="medecin_id" (change)="getCalendar1()">
+                       <option value=""></option>
+                      <option *ngFor="let medecin of medecins" [value]="medecin.id">
+                      {{medecin.nom}}&ensp;{{medecin.prenom}}
+                      </option>
+                    </select> 
+
+
+                    <div class="col-md-12">
+                        <div *ngIf="dataCalendar">
+                        <div>
+                          <div class="text-danger"></div>
+                          <table class="table table-sm table-bordered table-striped">
+                            <thead>
+                              <tr>
+                                <td colspan="25" class="bg-secondary">
+                                  <div class="input-group">
+                                    <div class="input-group-prepend bg-success">
+                                       <span class="input-group-text bg-success text-light">Date </span>
+                                    </div>
+              <input type="text" id="datepicker" class="form-control form-control-sm datepicker" name="calendarDate" [(ngModel)]="calendarDate" (blur)="getCalendar(medecin_id,calendarDate)" placeholder="au format jour/mois/annee"/>
+                                    <div class="input-group-append bg-success">
+                                       <button [disabled]="true" class="btn btn-success btn-outline-info text-light">Afficher le calendrier</button>
+                                    </div>
+                                     </div>
+                                </td>
+                              </tr>
+                            </thead>
+                            <tbody>											 											    
+                              <tr *ngFor="let rvCalendar of dataCalendar">
+                                <th class="text-center bg-success text-light text-bold text-capitalize" >{{rvCalendar.dayName }} <br/> {{ rvCalendar.date }}</th>
+                                <td *ngFor="let h of rvCalendar.hours" class="text-center" >
+                                  <label for="{{rvCalendar.date}}{{ h.houre}}" *ngIf="!h.engaged">
+                <input type="radio" name="rvHoure" id="color" [disabled]="h.engaged" [(ngModel)]="dateHeure"   value="{{rvCalendar.date + ' ' + h.houre}}"/>
+                                    {{ h.houre}}
+                                  </label>
+                                  <label for="{{rvCalendar.date}}{{ h.houre}}" *ngIf="h.engaged" class="bg-danger">
+               <input type="radio" name="rvHoure" id="color" [disabled]="h.engaged"  value="{{rvCalendar.date + ' ' + h.houre}}"/>
+                                    {{ h.houre}}
+                                  </label>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                      </div>
+
+
+      </div>
+      <br><br><br><br>
+      <div style="margin-left:40%">
+        <button type="reset" class="btn btn-danger">Réinitialiser</button>&nbsp;&nbsp;
+        <button style="background-color:green" type="submit" class="btn btn-primary">valider</button>
+        <div class="vert text-center"><h3><i>{{ajoutReussi}}</i></h3>
+      </div>
+     </div>
+      
+    </div> 
+  
+</form>
+      </div>
+    </div>
